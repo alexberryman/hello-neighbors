@@ -114,7 +114,7 @@ def geocode_favorite_spot(employees):
 def request_geocoding(employee):
     geocoder = Geocoder()
     geocoder.session.params['access_token'] = app.config['MAPBOX_ACCESS_KEY']
-    forward_response = geocoder.forward(employee['location_text'], types=['region', 'neighborhood'])
+    forward_response = geocoder.forward(employee['location_text'])
     return forward_response
 
 
