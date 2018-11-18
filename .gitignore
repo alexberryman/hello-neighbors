@@ -115,7 +115,7 @@ dmypy.json
 .pyre/
 
 # IDE
-./idea
+.idea/
 
 # Project settings
 settings.py
