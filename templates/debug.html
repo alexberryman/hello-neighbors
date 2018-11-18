@@ -62,9 +62,9 @@
         map.on('click', 'places', function (e) {
             var coordinates = e.features[0].geometry.coordinates.slice();
             var bio = e.features[0].properties.bio;
-            var location_text = '<p><strong>using:</strong>' + e.features[0].properties.location_text +'</p>';
-            var matched = '<p><strong>matched:</strong>' + e.features[0].properties.place_name +'</p>';
-            var place_type = '<p><strong>type:</strong>' + e.features[0].properties.place_type +'</p>';
+            var location_text = '<p><strong>using:</strong>' + e.features[0].properties.location_text + '</p>';
+            var matched = '<p><strong>matched:</strong>' + e.features[0].properties.place_name + '</p>';
+            var place_type = '<p><strong>type:</strong>' + e.features[0].properties.place_type + '</p>';
 
             // Ensure that if the map is zoomed out such that multiple
             // copies of the feature are visible, the popup appears
@@ -75,7 +75,7 @@
 
             new mapboxgl.Popup()
                 .setLngLat(coordinates)
-                .setHTML(location_text+matched+place_type)
+                .setHTML(location_text + matched + place_type)
                 .addTo(map);
         });
 
