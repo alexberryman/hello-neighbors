@@ -89,7 +89,8 @@ def geocode_favorite_spot(employees):
                     employees[index]['location_feature'] = forward_response.geojson()['features'][0]
                     employees[index]['location_point'] = forward_response.geojson()['features'][0]['geometry']
                     employees[index]['location_feature']['properties']["icon"] = 'marker'
-                    employees[index]['location_feature']['properties']["title"] = employee['name']
+                    employees[index]['location_feature']['properties']["name"] = employee['name']
+                    employees[index]['location_feature']['properties']["bio"] = employee['bio']
                 else:
                     employees[index]['location_feature'] = None
                     employees[index]['location_point'] = None

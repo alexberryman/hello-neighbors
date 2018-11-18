@@ -50,7 +50,7 @@
             },
             "layout": {
                 "icon-image": "{icon}-15",
-                "text-field": "{title}",
+                "text-field": "{name}",
                 "text-font": ["Open Sans Semibold", "Arial Unicode MS Bold"],
                 "text-offset": [0, 0.6],
                 "text-anchor": "top"
@@ -61,7 +61,7 @@
         // location of the feature, with description HTML from its properties.
         map.on('click', 'places', function (e) {
             var coordinates = e.features[0].geometry.coordinates.slice();
-            var description = e.features[0].properties.title;
+            var bio = e.features[0].properties.bio;
 
             // Ensure that if the map is zoomed out such that multiple
             // copies of the feature are visible, the popup appears
@@ -72,7 +72,7 @@
 
             new mapboxgl.Popup()
                 .setLngLat(coordinates)
-                .setHTML(description)
+                .setHTML(bio)
                 .addTo(map);
         });
 
