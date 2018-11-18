@@ -83,9 +83,7 @@ def combine_employee_blocks(team_data):
 def geocode_favorite_spot(employees):
     for index, employee in enumerate(employees):
         if employee['location_text']:
-            geocoder = Geocoder()
-            geocoder.session.params['access_token'] = app.config['MAPBOX_ACCESS_KEY']
-            forward_response = geocoder.forward(employee['location_text'])
+            forward_response = request_geocoding(employee)
             if forward_response.status_code == 200:
                 if len(forward_response.geojson()['features']) > 0:
                     employees[index]['location_feature'] = forward_response.geojson()['features'][0]
@@ -95,9 +93,9 @@ def geocode_favorite_spot(employees):
                     employees[index]['location_feature']['properties']["bio"] = employee['bio']
                     employees[index]['location_feature']['properties']["location_text"] = employee['location_text']
                     employees[index]['location_feature']['properties']["place_name"] = \
-                    forward_response.geojson()['features'][0]['place_name']
+                        forward_response.geojson()['features'][0]['place_name']
                     employees[index]['location_feature']['properties']["place_type"] = \
-                    forward_response.geojson()['features'][0]['place_type'][0]
+                        forward_response.geojson()['features'][0]['place_type'][0]
                 else:
                     employees[index]['location_feature'] = None
                     employees[index]['location_point'] = None
@@ -111,6 +109,13 @@ def geocode_favorite_spot(employees):
             employees[index]['location_point'] = None
 
     return employees
+
+
+def request_geocoding(employee):
+    geocoder = Geocoder()
+    geocoder.session.params['access_token'] = app.config['MAPBOX_ACCESS_KEY']
+    forward_response = geocoder.forward(employee['location_text'], types=['region', 'neighborhood'])
+    return forward_response
 
 
 if __name__ == '__main__':
