@@ -14,8 +14,14 @@ This demo is up and running at [https://map.berryman.space/](https://map.berryma
 # Things that still need improving
  - Geocoding unstructured text is unreliable. Look at [https://map.berryman.space/debug](https://map.berryman.space/debug) 
  to see the input and output of the geocoding for pins that look to be in an odd location.
+   - Mapbox provides page to see what filters can applied [https://www.mapbox.com/search-playground](https://www.mapbox.com/search-playground)
  - The layout of the map hides points when they are overlapping, this makes finding a specific name difficult.
  - The color scheme and icons are boring.
+ 
+# Resources
+ - [Flask](http://flask.pocoo.org/) web microframework
+ - [Requests](http://docs.python-requests.org/en/master/) API client
+ - [Mapbox](https://www.mapbox.com/) provides [geocoding](https://github.com/mapbox/mapbox-sdk-py/blob/master/docs/geocoding.md#geocoding) and the Javascript [map API](https://www.mapbox.com/mapbox-gl-js/api/)
 
 # Getting started on OSX
 To get all the tools you'll need run, edit, and debug this code we'll use Brew to manage packages.
