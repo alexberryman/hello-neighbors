@@ -1,4 +1,6 @@
 # [START gae_python37_app]
+import json
+
 import requests
 import re
 from flask import Flask, render_template
@@ -17,7 +19,14 @@ cache = SimpleCache()
 
 
 @app.route('/')
-def mapbox_points():
+def get_index():
+    return render_template('index.html',
+                           ACCESS_KEY=MAPBOX_ACCESS_KEY,
+                           )
+
+
+@app.route('/feature_collection')
+def get_feature_collection():
     feature_collection = cache.get('my-item')
     if feature_collection is None:
         employees_data = create_employee_data()
@@ -29,10 +38,7 @@ def mapbox_points():
         feature_collection = FeatureCollection(features)
         cache.set('my-item', feature_collection, timeout=30 * 60)
 
-    return render_template('index.html',
-                           ACCESS_KEY=MAPBOX_ACCESS_KEY,
-                           feature_collection=feature_collection
-                           )
+    return json.dumps(feature_collection)
 
 
 def create_employee_data():
