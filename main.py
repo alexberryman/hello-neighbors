@@ -24,9 +24,10 @@ def get_index():
                            ACCESS_KEY=MAPBOX_ACCESS_KEY,
                            )
 
-@app.route('/clickable')
+
+@app.route('/debug')
 def get_clickable():
-    return render_template('clickable.html',
+    return render_template('debug.html',
                            ACCESS_KEY=MAPBOX_ACCESS_KEY,
                            )
 
@@ -78,6 +79,7 @@ def combine_employee_blocks(team_data):
                 employees.append(employee)
     return employees
 
+
 def geocode_favorite_spot(employees):
     for index, employee in enumerate(employees):
         if employee['location_text']:
@@ -91,6 +93,11 @@ def geocode_favorite_spot(employees):
                     employees[index]['location_feature']['properties']["icon"] = 'marker'
                     employees[index]['location_feature']['properties']["name"] = employee['name']
                     employees[index]['location_feature']['properties']["bio"] = employee['bio']
+                    employees[index]['location_feature']['properties']["location_text"] = employee['location_text']
+                    employees[index]['location_feature']['properties']["place_name"] = \
+                    forward_response.geojson()['features'][0]['place_name']
+                    employees[index]['location_feature']['properties']["place_type"] = \
+                    forward_response.geojson()['features'][0]['place_type'][0]
                 else:
                     employees[index]['location_feature'] = None
                     employees[index]['location_point'] = None
