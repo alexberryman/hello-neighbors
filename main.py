@@ -1,6 +1,7 @@
 # [START gae_python37_app]
 import json
 
+import redis
 import requests
 import re
 from flask import Flask, render_template
@@ -15,21 +16,24 @@ app.config.from_object(__name__)
 app.config.from_envvar('APP_CONFIG_FILE', silent=True)
 MAPBOX_ACCESS_KEY = app.config['MAPBOX_ACCESS_KEY']
 
-cache = SimpleCache()
+REDIS_HOST = app.config['REDIS_HOST']
+REDIS_PORT = app.config['REDIS_PORT']
+REDIS_PASSWORD = app.config['REDIS_PASSWORD']
+
+if REDIS_HOST:
+    cache = redis.StrictRedis(host=REDIS_HOST, port=REDIS_PORT, password=REDIS_PASSWORD)
+else:
+    cache = SimpleCache()
 
 
 @app.route('/')
 def get_index():
-    return render_template('index.html',
-                           ACCESS_KEY=MAPBOX_ACCESS_KEY,
-                           )
+    return render_template('index.html', ACCESS_KEY=MAPBOX_ACCESS_KEY, )
 
 
 @app.route('/debug')
 def get_clickable():
-    return render_template('debug.html',
-                           ACCESS_KEY=MAPBOX_ACCESS_KEY,
-                           )
+    return render_template('debug.html', ACCESS_KEY=MAPBOX_ACCESS_KEY)
 
 
 @app.route('/feature_collection')
@@ -42,10 +46,10 @@ def get_feature_collection():
             if data['location_feature']:
                 features.append(data['location_feature'])
 
-        feature_collection = FeatureCollection(features)
-        cache.set('feature_collection', feature_collection, timeout=30 * 60)
+        feature_collection = json.dumps(FeatureCollection(features))
+        cache.set('feature_collection', feature_collection)
 
-    return json.dumps(feature_collection)
+    return feature_collection
 
 
 def create_employee_data():
