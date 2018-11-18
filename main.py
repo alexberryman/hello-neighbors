@@ -34,7 +34,7 @@ def get_clickable():
 
 @app.route('/feature_collection')
 def get_feature_collection():
-    feature_collection = cache.get('my-item')
+    feature_collection = cache.get('feature_collection')
     if feature_collection is None:
         employees_data = create_employee_data()
         features = []
@@ -43,7 +43,7 @@ def get_feature_collection():
                 features.append(data['location_feature'])
 
         feature_collection = FeatureCollection(features)
-        cache.set('my-item', feature_collection, timeout=30 * 60)
+        cache.set('feature_collection', feature_collection, timeout=30 * 60)
 
     return json.dumps(feature_collection)
 
