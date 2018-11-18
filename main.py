@@ -24,6 +24,12 @@ def get_index():
                            ACCESS_KEY=MAPBOX_ACCESS_KEY,
                            )
 
+@app.route('/clickable')
+def get_clickable():
+    return render_template('clickable.html',
+                           ACCESS_KEY=MAPBOX_ACCESS_KEY,
+                           )
+
 
 @app.route('/feature_collection')
 def get_feature_collection():
