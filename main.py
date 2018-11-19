@@ -17,6 +17,7 @@ app.config.from_envvar('APP_CONFIG_FILE', silent=True)
 MAPBOX_ACCESS_KEY = app.config['MAPBOX_ACCESS_KEY']
 IGNORE_POI = app.config['IGNORE_POI']
 EXTRACT_DEEPER_LOCATION = app.config['EXTRACT_DEEPER_LOCATION']
+COUNTRY_KEYWORD_FILTER = app.config['COUNTRY_KEYWORD_FILTER']
 
 REDIS_HOST = app.config['REDIS_HOST']
 REDIS_PORT = app.config['REDIS_PORT']
@@ -127,12 +128,18 @@ def request_geocoding(employee):
     valid_types = list(geocoder.place_types.keys())
     valid_types.remove('address')
     valid_types.remove('country')
+    country_code = None
+
+    for index, city in enumerate(COUNTRY_KEYWORD_FILTER):
+        if city in employee['location_text']:
+            country_code = [COUNTRY_KEYWORD_FILTER[city]]
+
     if employee['name'] in IGNORE_POI:
         valid_types.remove('poi')
         valid_types.remove('poi.landmark')
-        forward_response = geocoder.forward(employee['location_text'], types=valid_types)
+        forward_response = geocoder.forward(employee['location_text'], types=valid_types, country=country_code)
     else:
-        forward_response = geocoder.forward(employee['location_text'], types=valid_types)
+        forward_response = geocoder.forward(employee['location_text'], types=valid_types, country=country_code)
     return forward_response
 
 
