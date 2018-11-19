@@ -15,6 +15,8 @@ app = Flask(__name__)
 app.config.from_object(__name__)
 app.config.from_envvar('APP_CONFIG_FILE', silent=True)
 MAPBOX_ACCESS_KEY = app.config['MAPBOX_ACCESS_KEY']
+IGNORE_POI = app.config['IGNORE_POI']
+EXTRACT_DEEPER_LOCATION = app.config['EXTRACT_DEEPER_LOCATION']
 
 REDIS_HOST = app.config['REDIS_HOST']
 REDIS_PORT = app.config['REDIS_PORT']
@@ -63,10 +65,14 @@ def create_employee_data():
 def extract_employee_fav_location(team_data):
     employees = combine_employee_blocks(team_data)
     for offset, employee in enumerate(employees):
-        pattern_for_location_text = re.compile(r'favorite neighborhood is(?P<location_text>.+)(?=\.|\<)', re.IGNORECASE)
+        pattern_for_location_text = re.compile(r'(?=\<p\>).+favorite neighborhood is(?P<location_text>.+)(?=<\/p>)', re.IGNORECASE)
         matched = pattern_for_location_text.search(employee['bio'])
         if matched:
-            employees[offset]['location_text'] = matched.group('location_text')
+            if employee['name'] in EXTRACT_DEEPER_LOCATION:
+                employees[offset]['location_text'] = matched.group('location_text').split(' in ')[1]
+            else:
+                employees[offset]['location_text'] = matched.group('location_text')
+
         else:
             print('location not found for ' + employee['name'])
             employees[offset]['location_text'] = None
@@ -118,7 +124,15 @@ def geocode_favorite_spot(employees):
 def request_geocoding(employee):
     geocoder = Geocoder()
     geocoder.session.params['access_token'] = app.config['MAPBOX_ACCESS_KEY']
-    forward_response = geocoder.forward(employee['location_text'])
+    valid_types = list(geocoder.place_types.keys())
+    valid_types.remove('address')
+    valid_types.remove('country')
+    if employee['name'] in IGNORE_POI:
+        valid_types.remove('poi')
+        valid_types.remove('poi.landmark')
+        forward_response = geocoder.forward(employee['location_text'], types=valid_types)
+    else:
+        forward_response = geocoder.forward(employee['location_text'], types=valid_types)
     return forward_response
 
 
