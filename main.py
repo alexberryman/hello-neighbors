@@ -38,6 +38,7 @@ def get_index():
 def get_clickable():
     return render_template('debug.html', ACCESS_KEY=MAPBOX_ACCESS_KEY)
 
+
 @app.route('/clear')
 def get_cache_clear():
     cache.delete('feature_collection')
