@@ -5,8 +5,8 @@ View the favorite neighborhoods of Neighborhoods.com employees on a map
 The goal of this demo is to provide a playground that does the following
 1. Use data from https://www.neighborhoods.com/about/our-team
 1. Extract a favorite location from the biography (i.e `Alex's favorite neighborhood is West Loop in Chicago.`)
-1. Input this location to a geocoder to turn the text into latitude and longitude;
-1. Present the points on a map.
+1. Attempt to geocode this location to turn the text into a point on the earth.
+1. Present the points on an interactive map.
 
 # Live Demo
 This demo is up and running at [https://map.berryman.space/](https://map.berryman.space/)
@@ -16,6 +16,7 @@ This demo is up and running at [https://map.berryman.space/](https://map.berryma
  to see the input and output of the geocoding for pins that look to be in an odd location.
    - Mapbox provides page to see what filters can applied [https://www.mapbox.com/search-playground](https://www.mapbox.com/search-playground)
  - The layout of the map hides points when they are overlapping, this makes finding a specific name difficult.
+   - In Chicago there are a stacked points (i.e. Logan Square, or Wicker Park)  where people have the same favorite neighborhood. Offsetting the points slightly, or selecting a different POI can help spread out the points.
  - The color scheme and icons are boring.
  
 # Resources
