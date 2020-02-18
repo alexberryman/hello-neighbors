@@ -8,12 +8,8 @@ The goal of this demo is to provide a playground that does the following
 1. Attempt to geocode this location to turn the text into a point on the earth.
 1. Present the points on an interactive map.
 
-# Live Demo
-This demo is up and running at [https://map.berryman.space/](https://map.berryman.space/)
-
 # Things that still need improving
- - Geocoding unstructured text is unreliable. Look at [https://map.berryman.space/debug](https://map.berryman.space/debug) 
- to see the input and output of the geocoding for pins that look to be in an odd location.
+ - Geocoding unstructured text is unreliable. Look at http://127.0.0.1:8080/debug page to see the input and output of the geocoding for pins that look to be in an odd location.
    - Mapbox provides page to see what filters can applied [https://www.mapbox.com/search-playground](https://www.mapbox.com/search-playground)
  - The layout of the map hides points when they are overlapping, this makes finding a specific name difficult.
    - In Chicago there are a stacked points (i.e. Logan Square, or Wicker Park)  where people have the same favorite neighborhood. Offsetting the points slightly, or selecting a different POI can help spread out the points.
