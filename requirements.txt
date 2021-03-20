@@ -10,7 +10,7 @@ geojson==2.4.1
 idna==2.7
 iso3166==0.9
 itsdangerous==1.1.0
-Jinja2==2.10
+Jinja2==2.11.3
 jmespath==0.9.3
 mapbox==0.17.1
 MarkupSafe==1.1.0
